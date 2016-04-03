@@ -1,0 +1,9 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+	Layout = "Layout.cshtml";
+}
+
+<h2>Calculator</h2>
+
+@Html.Action("AddForm", "SimpleSurface")

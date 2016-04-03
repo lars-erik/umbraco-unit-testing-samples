@@ -1,0 +1,7 @@
+﻿@using (Html.BeginUmbracoForm("PostForm", "SimpleSurface"))
+{
+    <input type="number" name="X"/>
+    <input type="number" name="Y"/>
+    <input type="hidden" name="IsPosted" value="true"/>
+    <button type="submit">Add</button>
+}
