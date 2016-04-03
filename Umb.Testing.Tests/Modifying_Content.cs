@@ -35,7 +35,7 @@ namespace Umb.Testing.Tests
             var routingContext = GetRoutingContext("http://localhost", 1, routeData, true, UmbracoConfig.For.UmbracoSettings());
             var ctx = routingContext.UmbracoContext;
 
-            // Published content request necessary for rendermodel simple ctor
+            // Published content request necessary for rendermodel simple ctor (avoid culture)
             ctx.PublishedContentRequest = new PublishedContentRequest(
                 new Uri("http://localhost"),
                 routingContext,
@@ -43,13 +43,16 @@ namespace Umb.Testing.Tests
                 s => new string[0]
                 );
 
+            // ViewEngine mock necessary for template evaluation in base RenderMvcController
             var viewEngineMock = new Mock<IViewEngine>();
             viewEngineMock
                 .Setup(e => e.FindView(It.IsAny<ControllerContext>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()))
                 .Returns(new ViewEngineResult(Mock.Of<IView>(), viewEngineMock.Object));
+            // Clearing necessary to avoid MVC dependency hell
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(viewEngineMock.Object);
 
+            // ControllerContext mock also necessary for template evaluation in base RenderMvcController
             controllerContextMock = new Mock<ControllerContext>();
             controllerContextMock.Setup(c => c.RouteData).Returns(routeData);
 
