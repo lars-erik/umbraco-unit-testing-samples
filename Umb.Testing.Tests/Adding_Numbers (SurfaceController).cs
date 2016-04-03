@@ -16,7 +16,7 @@ namespace Umb.Testing.Tests
             GetUmbracoContext("http://localhost", -1, null, true);
 
             /*
-            For complete control:
+            Stubbing the UmbracoContext:
 
             var appCtx = new ApplicationContext(
                 CacheHelper.CreateDisabledCacheHelper(),

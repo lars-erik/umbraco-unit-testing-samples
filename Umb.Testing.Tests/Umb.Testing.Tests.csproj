@@ -264,8 +264,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adding_Numbers.cs" />
-    <Compile Include="Modifying_Content.cs" />
+    <Compile Include="Adding_Numbers %28SurfaceController%29.cs" />
+    <Compile Include="Modifying_Content %28RenderMvcController%29.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
