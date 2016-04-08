@@ -1,11 +1,9 @@
-﻿using System.Web.Mvc;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Umb.Testing.Web.Controllers;
 using Umb.Testing.Web.Models;
 using Umbraco.Tests.TestHelpers;
-using Umbraco.Web;
 
-namespace Umb.Testing.Tests
+namespace Umb.Testing.Tests.SampleBareboneTests
 {
     [TestFixture]
     public class Adding_Numbers : BaseWebTest

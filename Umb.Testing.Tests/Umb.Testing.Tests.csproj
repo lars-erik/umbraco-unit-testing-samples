@@ -264,8 +264,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adding_Numbers %28SurfaceController%29.cs" />
-    <Compile Include="Modifying_Content %28RenderMvcController%29.cs" />
+    <Compile Include="SampleBareboneTests\Adding_Numbers %28SurfaceController%29.cs" />
+    <Compile Include="SampleBareboneTests\Getting_Backoffice_Data %28AuthorizedApiController%29.cs" />
+    <Compile Include="SampleBareboneTests\Modifying_Content %28RenderMvcController%29.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

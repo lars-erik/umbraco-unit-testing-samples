@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Moq;
@@ -13,11 +8,10 @@ using Umb.Testing.Web.Models;
 using Umbraco.Core.Configuration;
 using Umbraco.Core.Models;
 using Umbraco.Tests.TestHelpers;
-using Umbraco.Web;
 using Umbraco.Web.Models;
 using Umbraco.Web.Routing;
 
-namespace Umb.Testing.Tests
+namespace Umb.Testing.Tests.SampleBareboneTests
 {
     [TestFixture]
     public class Modifying_Content : BaseRoutingTest

@@ -368,6 +368,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ContentController.cs" />
+    <Compile Include="Controllers\SimpleAuthorizedController.cs" />
     <Compile Include="Controllers\SimpleSurfaceController.cs" />
     <Compile Include="Models\AdditionModel.cs" />
     <Compile Include="Models\ContentModel.cs" />
