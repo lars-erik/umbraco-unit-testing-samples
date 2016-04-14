@@ -264,9 +264,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SampleBareboneTests\Adding_Numbers %28SurfaceController%29.cs" />
-    <Compile Include="SampleBareboneTests\Getting_Backoffice_Data %28AuthorizedApiController%29.cs" />
-    <Compile Include="SampleBareboneTests\Modifying_Content %28RenderMvcController%29.cs" />
+    <Compile Include="SampleTests\Adding_Numbers.cs" />
+    <Compile Include="SampleUmbracoTests\Adding_Numbers %28SurfaceController%29.cs" />
+    <Compile Include="SampleUmbracoTests\Getting_Backoffice_Data %28AuthorizedApiController%29.cs" />
+    <Compile Include="SampleUmbracoTests\Modifying_Content %28RenderMvcController%29.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -278,6 +279,9 @@
       <Project>{BD3572A8-14C7-43DF-8189-9912433258A9}</Project>
       <Name>Umb.Testing.Web</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DelegatingTests\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

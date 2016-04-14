@@ -32,8 +32,6 @@ namespace Umb.Testing.Web.Controllers
         public string GetUserInfo()
         {
             return Security.CurrentUser.Name;
-
-            return String.Format("{0}:{1}", User.Identity.IsAuthenticated, User.Identity.Name);
         }
     }
 }

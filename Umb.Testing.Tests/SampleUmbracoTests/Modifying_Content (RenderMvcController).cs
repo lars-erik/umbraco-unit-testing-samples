@@ -11,7 +11,7 @@ using Umbraco.Tests.TestHelpers;
 using Umbraco.Web.Models;
 using Umbraco.Web.Routing;
 
-namespace Umb.Testing.Tests.SampleBareboneTests
+namespace Umb.Testing.Tests.SampleUmbracoTests
 {
     [TestFixture]
     public class Modifying_Content : BaseRoutingTest

@@ -3,10 +3,10 @@ using Umb.Testing.Web.Controllers;
 using Umb.Testing.Web.Models;
 using Umbraco.Tests.TestHelpers;
 
-namespace Umb.Testing.Tests.SampleBareboneTests
+namespace Umb.Testing.Tests.SampleUmbracoTests
 {
     [TestFixture]
-    public class Adding_Numbers : BaseWebTest
+    public class Adding_NumbersX : BaseWebTest
     {
         [SetUp]
         public void Setup()
@@ -50,4 +50,6 @@ namespace Umb.Testing.Tests.SampleBareboneTests
             Assert.AreEqual(expectedSum, resultModel.Sum);
         }
     }
+
+
 }
