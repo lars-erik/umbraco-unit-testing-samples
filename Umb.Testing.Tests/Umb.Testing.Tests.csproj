@@ -264,6 +264,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MocksOnly\Adding_Numbers %28SurfaceController%29.cs" />
     <Compile Include="SampleTests\Adding_Numbers.cs" />
     <Compile Include="SampleUmbracoTests\Adding_Numbers %28SurfaceController%29.cs" />
     <Compile Include="SampleUmbracoTests\Getting_Backoffice_Data %28AuthorizedApiController%29.cs" />
