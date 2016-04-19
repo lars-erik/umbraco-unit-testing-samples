@@ -59,7 +59,8 @@ namespace Umb.Testing.Tests.SampleUmbracoTests
                 new DatabaseContext(new Mock<IDatabaseFactory>().Object, Mock.Of<ILogger>(), Mock.Of<ISqlSyntaxProvider>(), "test"),
                 serviceContextMock,
                 CacheHelper.CreateDisabledCacheHelper(),
-                new ProfilingLogger(Mock.Of<ILogger>(), Mock.Of<IProfiler>()));
+                new ProfilingLogger(Mock.Of<ILogger>(), Mock.Of<IProfiler>())
+            );
         }
 
         private UmbracoBackOfficeIdentity CreateIdentity()
