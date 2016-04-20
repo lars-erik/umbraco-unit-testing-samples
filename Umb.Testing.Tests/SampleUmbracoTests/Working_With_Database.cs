@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using NUnit.Framework;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
@@ -12,7 +13,7 @@ using Umbraco.Web;
 namespace Umb.Testing.Tests.SampleUmbracoTests
 {
     [TestFixture]
-    [DatabaseTestBehavior(DatabaseBehavior.NewDbFileAndSchemaPerTest)]
+    [DatabaseTestBehavior(DatabaseBehavior.NewDbFileAndSchemaPerFixture)]
     public class Working_With_Database : BaseDatabaseFactoryTest
     {
         private IDataTypeService dataTypeService;
@@ -23,6 +24,14 @@ namespace Umb.Testing.Tests.SampleUmbracoTests
             base.Initialize();
 
             dataTypeService = ApplicationContext.Services.DataTypeService;
+            ApplicationContext.DatabaseContext.Database.BeginTransaction();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            ApplicationContext.DatabaseContext.Database.AbortTransaction();
+            base.TearDown();
         }
 
         [Test]
@@ -56,6 +65,12 @@ namespace Umb.Testing.Tests.SampleUmbracoTests
             dataTypeService.Delete(dataType);
             var lost = dataTypeService.GetDataTypeDefinitionById(dataType.Id);
             Assert.IsNull(lost);
+        }
+
+        [Test]
+        public void Transaction_Works()
+        {
+            Assert.AreEqual(24, dataTypeService.GetAllDataTypeDefinitions().Count());
         }
 
         private DataTypeDefinition CreateAndSaveDataType()
