@@ -1,0 +1,15 @@
+﻿{
+    "javascript": [
+        "~/App_Plugins/NamePlaceHolder/nameplaceholder.js"
+    ],
+    "propertyEditors": [
+        {
+            "alias": "name.placeholder",
+            "name": "Name placeholder",
+            "editor": {
+                "view": "~/App_Plugins/NamePlaceHolder/nameplaceholder.html",
+                "valueType": "JSON"
+            }
+        }
+    ]
+}

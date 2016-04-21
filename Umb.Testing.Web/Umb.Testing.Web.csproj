@@ -300,6 +300,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Plugins\NamePlaceHolder\nameplaceholder.html" />
+    <Content Include="App_Plugins\NamePlaceHolder\nameplaceholder.js" />
+    <Content Include="App_Plugins\NamePlaceHolder\tests\lib\jasmine-2.4.1\boot.js" />
+    <Content Include="App_Plugins\NamePlaceHolder\tests\lib\jasmine-2.4.1\console.js" />
+    <Content Include="App_Plugins\NamePlaceHolder\tests\lib\jasmine-2.4.1\jasmine-html.js" />
+    <Content Include="App_Plugins\NamePlaceHolder\tests\lib\jasmine-2.4.1\jasmine.css" />
+    <Content Include="App_Plugins\NamePlaceHolder\tests\lib\jasmine-2.4.1\jasmine.js" />
+    <Content Include="App_Plugins\NamePlaceHolder\tests\lib\jasmine-2.4.1\jasmine_favicon.png" />
+    <Content Include="App_Plugins\NamePlaceHolder\tests\nameplaceholder.tests.js" />
+    <Content Include="App_Plugins\NamePlaceHolder\tests\SpecRunner.html" />
     <Content Include="packages.config" />
     <Content Include="App_Plugins\ModelsBuilder\package.manifest" />
     <Content Include="Views\Web.config" />
@@ -332,6 +342,7 @@
     <Content Include="Views\SimpleSurface\AddForm.cshtml" />
     <Content Include="Views\Content.cshtml" />
     <Content Include="Views\Layout.cshtml" />
+    <Content Include="App_Plugins\NamePlaceHolder\package.manifest" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
