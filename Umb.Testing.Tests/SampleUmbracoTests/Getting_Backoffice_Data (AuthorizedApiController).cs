@@ -20,10 +20,12 @@ namespace Umb.Testing.Tests.SampleUmbracoTests
     [TestFixture]
     public class Getting_Backoffice_Data : BaseDatabaseFactoryTest
     {
+        private const int StubbedUserId = 1;
         private SimpleAuthorizedController controller;
-        private ServiceContext serviceContextMock;
+        private ServiceContext serviceContext;
         private UmbracoContext umbracoContext;
 
+        [SetUp]
         public override void Initialize()
         {
             base.Initialize();
@@ -41,11 +43,11 @@ namespace Umb.Testing.Tests.SampleUmbracoTests
         public void Via_Auth_That_Checks_User()
         {
             const string expectedName = "expected name";
-            var user = Mock.Of<IUser>();
+            Mock.Get(umbracoContext.HttpContext).Setup(ctx => ctx.User).Returns(new ClaimsPrincipal(CreateIdentity(StubbedUserId)));
 
+            var user = Mock.Of<IUser>();
             Mock.Get(user).Setup(u => u.Name).Returns(expectedName);
-            Mock.Get(serviceContextMock.UserService).Setup(ctx => ctx.GetUserById(1)).Returns(user);
-            Mock.Get(umbracoContext.HttpContext).Setup(ctx => ctx.User).Returns(new ClaimsPrincipal(CreateIdentity()));
+            Mock.Get(serviceContext.UserService).Setup(ctx => ctx.GetUserById(StubbedUserId)).Returns(user);
 
             var result = controller.GetUserInfo();
             Console.WriteLine(result);
@@ -54,23 +56,23 @@ namespace Umb.Testing.Tests.SampleUmbracoTests
 
         protected override ApplicationContext CreateApplicationContext()
         {
-            serviceContextMock = MockHelper.GetMockedServiceContext();
+            serviceContext = MockHelper.GetMockedServiceContext();
             return new ApplicationContext(
                 new DatabaseContext(new Mock<IDatabaseFactory>().Object, Mock.Of<ILogger>(), Mock.Of<ISqlSyntaxProvider>(), "test"),
-                serviceContextMock,
+                serviceContext,
                 CacheHelper.CreateDisabledCacheHelper(),
                 new ProfilingLogger(Mock.Of<ILogger>(), Mock.Of<IProfiler>())
             );
         }
 
-        private UmbracoBackOfficeIdentity CreateIdentity()
+        private UmbracoBackOfficeIdentity CreateIdentity(int userId)
         {
             var sessionId = Guid.NewGuid().ToString();
             var userData = new UserData(sessionId)
             {
                 AllowedApplications = new[] { "content", "media" },
                 Culture = "en-us",
-                Id = 1,
+                Id = userId,
                 RealName = "hello world",
                 Roles = new[] { "admin" },
                 StartContentNode = -1,

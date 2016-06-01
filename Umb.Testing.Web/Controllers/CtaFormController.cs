@@ -26,6 +26,7 @@ namespace Umb.Testing.Web.Controllers
         public CtaFormController(UmbracoContext umbracoContext, UmbracoHelper umbracoHelper, IMailGateway mailGateway) : base(umbracoContext, umbracoHelper)
         {
             this.mailGateway = mailGateway;
+            
         }
 
         #endregion
@@ -40,6 +41,8 @@ namespace Umb.Testing.Web.Controllers
             return PartialView(viewName, model);
         }
 
+        #region step 2
+
         public PartialViewResult Post(FormModel model)
         {
             mailGateway.Send(
@@ -49,7 +52,11 @@ namespace Umb.Testing.Web.Controllers
                 );
             return PartialView(model.ViewName, model);
         }
+
+        #endregion
     }
+
+    #region step 2
     public interface IMailGateway
     {
         void Send(string to, string subject, string message);
@@ -62,5 +69,5 @@ namespace Umb.Testing.Web.Controllers
             throw new NotImplementedException();
         }
     }
-
+    #endregion
 }
