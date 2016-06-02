@@ -29,7 +29,10 @@ namespace Umb.Testing.Web.Controllers
             var replacedContent = new ContentModel(model.Content);
             var replacedModel = new RenderModel<ContentModel>(replacedContent);
 
-            replacedContent.MessageFromController = "Hello from controller";
+            if (User.Identity.IsAuthenticated)
+                replacedContent.CtaForm = "AuthenticatedForm";
+            else
+                replacedContent.CtaForm = "AnonymousForm";
 
             return base.Index(replacedModel);
         }

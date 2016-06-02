@@ -14,5 +14,6 @@ namespace Umb.Testing.Web.Models
         }
 
         public string MessageFromController { get; set; }
+        public string CtaForm { get; set; }
     }
 }
