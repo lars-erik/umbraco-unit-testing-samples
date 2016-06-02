@@ -270,7 +270,7 @@
     <Compile Include="SampleUmbracoTests\Adding_Numbers %28SurfaceController%29.cs" />
     <Compile Include="SampleUmbracoTests\CTA_Form %28SurfaceController%29.cs" />
     <Compile Include="SampleUmbracoTests\Getting_Backoffice_Data %28AuthorizedApiController%29.cs" />
-    <Compile Include="SampleUmbracoTests\Modifying_Content %28RenderMvcController%29.cs" />
+    <Compile Include="SampleUmbracoTests\Selecting_CTA_Form %28RenderMvcController%29.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleUmbracoTests\Working_With_Database.cs" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Principal;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Moq;
@@ -8,15 +9,19 @@ using Umb.Testing.Web.Models;
 using Umbraco.Core.Configuration;
 using Umbraco.Core.Models;
 using Umbraco.Tests.TestHelpers;
+using Umbraco.Web;
 using Umbraco.Web.Models;
 using Umbraco.Web.Routing;
 
 namespace Umb.Testing.Tests.SampleUmbracoTests
 {
     [TestFixture]
-    public class Modifying_Content : BaseRoutingTest
+    public class Selecting_Cta_Form : BaseRoutingTest
     {
         private Mock<ControllerContext> controllerContextMock;
+        private UmbracoContext umbracoContext;
+        private ContentController contentController;
+        private IPublishedContent content;
 
         [SetUp]
         public void Setup()
@@ -27,10 +32,10 @@ namespace Umb.Testing.Tests.SampleUmbracoTests
             // Routing context necessary for published content request
             var routeData = new RouteData();
             var routingContext = GetRoutingContext("http://localhost", 1, routeData, true, UmbracoConfig.For.UmbracoSettings());
-            var ctx = routingContext.UmbracoContext;
+            umbracoContext = routingContext.UmbracoContext;
 
             // Published content request necessary for rendermodel simple ctor (avoid culture)
-            ctx.PublishedContentRequest = new PublishedContentRequest(
+            umbracoContext.PublishedContentRequest = new PublishedContentRequest(
                 new Uri("http://localhost"),
                 routingContext,
                 UmbracoConfig.For.UmbracoSettings().WebRouting,
@@ -46,29 +51,49 @@ namespace Umb.Testing.Tests.SampleUmbracoTests
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(viewEngineMock.Object);
 
-            // ControllerContext mock also necessary for template evaluation in base RenderMvcController
+            // ControllerContext mock also necessary for HttpContext and template evaluation in base RenderMvcController
             controllerContextMock = new Mock<ControllerContext>();
             controllerContextMock.Setup(c => c.RouteData).Returns(routeData);
+            controllerContextMock.Setup(c => c.HttpContext).Returns(umbracoContext.HttpContext);
 
             routeData.Values.Add("controller", "Content");
             routeData.Values.Add("action", "Content");
-        }
 
-        [Test]
-        public void From_RenderMvcController()
-        {
-            var content = Mock.Of<IPublishedContent>();
+            // Current page
+            content = Mock.Of<IPublishedContent>();
 
-            var controller = new ContentController
+            // And controller
+            contentController = new ContentController(umbracoContext)
             {
                 ControllerContext = controllerContextMock.Object
             };
+        }
 
-            // Example: Not specifying culture here blows up the setup method
-            var result = (ViewResult)controller.Index(new RenderModel(content));
+        [Test]
+        public void For_Anonymous_User()
+        {
+            Mock.Get(umbracoContext.HttpContext)
+                .Setup(c => c.User)
+                .Returns(new GenericPrincipal(new GenericIdentity(""), new string[0]));
+
+            var result = (ViewResult)contentController.Index(new RenderModel(content));
 
             var resultModel = (RenderModel<ContentModel>)result.Model;
-            Assert.AreEqual("Hello from controller", resultModel.Content.MessageFromController);
+            Assert.AreEqual("AnonymousForm", resultModel.Content.CtaForm);
+        }
+
+        [Test]
+        public void For_Authenticated_User()
+        {
+            Mock.Get(umbracoContext.HttpContext)
+                .Setup(c => c.User)
+                .Returns(new GenericPrincipal(new GenericIdentity("user"), new string[0]));
+
+            // Example: Not specifying culture here blows up the setup method
+            var result = (ViewResult)contentController.Index(new RenderModel(content));
+
+            var resultModel = (RenderModel<ContentModel>)result.Model;
+            Assert.AreEqual("AuthenticatedForm", resultModel.Content.CtaForm);
         }
     }
 }
