@@ -10,6 +10,7 @@ using Umbraco.Core.Configuration.UmbracoSettings;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
 using Umbraco.Core.Profiling;
+using Umbraco.Tests.TestHelpers;
 using Umbraco.Web;
 using Umbraco.Web.Routing;
 using Umbraco.Web.Security;
@@ -17,32 +18,30 @@ using Umbraco.Web.Security;
 namespace Umb.Testing.Tests.SampleUmbracoTests
 {
     [TestFixture]
-    public class Showing_Cta_Form
+    public class Showing_Cta_Form : BaseRoutingTest
     {
+        private Mock<IPublishedContent> contentMock;
+        private CtaFormController controller;
+
         [SetUp]
         public void SetUp()
         {
-            var applicationContext = new ApplicationContext(
-                CacheHelper.CreateDisabledCacheHelper(),
-                new ProfilingLogger(Mock.Of<ILogger>(), Mock.Of<IProfiler>())
-            );
+            contentMock = new Mock<IPublishedContent>();
 
-            UmbracoContext.EnsureContext(
-                Mock.Of<HttpContextBase>(),
-                applicationContext,
-                new WebSecurity(Mock.Of<HttpContextBase>(), applicationContext),
-                Mock.Of<IUmbracoSettingsSection>(),
-                Enumerable.Empty<IUrlProvider>(),
-                true
-            );
+            var settings = SettingsForTests.GenerateMockSettings();
+            var routingContext = GetRoutingContext("http://localhost", 0, umbracoSettings:settings);
+            var helper = new UmbracoHelper(routingContext.UmbracoContext, contentMock.Object);
+
+            controller = new CtaFormController(routingContext.UmbracoContext, helper);
         }
 
         [Test]
         public void Should_Return_The_Specified_View()
         {
             const string expectedViewName = "AnonymousVisitor";
-            var controller = new CtaFormController();
+
             var result = controller.Form(expectedViewName);
+
             Assert.AreEqual(expectedViewName, result.ViewName);
         }
 
@@ -50,12 +49,8 @@ namespace Umb.Testing.Tests.SampleUmbracoTests
         public void Adds_The_Name_Of_The_Current_Page_To_The_Form()
         {
             const string expectedPageName = "A page";
-            var contentMock = new Mock<IPublishedContent>();
             contentMock.Setup(c => c.Name).Returns(expectedPageName);
 
-            var helper = new UmbracoHelper(UmbracoContext.Current, contentMock.Object);
-
-            var controller = new CtaFormController(UmbracoContext.Current, helper);
             var result = controller.Form("view");
             var model = (FormModel) result.Model;
 
