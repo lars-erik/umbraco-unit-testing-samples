@@ -215,3 +215,6 @@ ModelManifest.xml
 umbraco/
 umbraco_client/
 app_data/
+/Umb.Testing.Web/Config/splashes
+/Umb.Testing.Web/App_Browsers
+/Umb.Testing.Tests/Umb.Testing.Tests.csproj.DotSettings
