@@ -4,9 +4,11 @@ using System.Web;
 using Moq;
 using NUnit.Framework;
 using Umb.Testing.Web.Controllers;
+using Umb.Testing.Web.Models;
 using Umbraco.Core;
 using Umbraco.Core.Configuration.UmbracoSettings;
 using Umbraco.Core.Logging;
+using Umbraco.Core.Models;
 using Umbraco.Core.Profiling;
 using Umbraco.Web;
 using Umbraco.Web.Routing;
@@ -42,6 +44,22 @@ namespace Umb.Testing.Tests.SampleUmbracoTests
             var controller = new CtaFormController();
             var result = controller.Form(expectedViewName);
             Assert.AreEqual(expectedViewName, result.ViewName);
+        }
+
+        [Test]
+        public void Adds_The_Name_Of_The_Current_Page_To_The_Form()
+        {
+            const string expectedPageName = "A page";
+            var contentMock = new Mock<IPublishedContent>();
+            contentMock.Setup(c => c.Name).Returns(expectedPageName);
+
+            var helper = new UmbracoHelper(UmbracoContext.Current, contentMock.Object);
+
+            var controller = new CtaFormController(UmbracoContext.Current, helper);
+            var result = controller.Form("view");
+            var model = (FormModel) result.Model;
+
+            Assert.AreEqual(expectedPageName, model.PageName);
         }
     }
 }
