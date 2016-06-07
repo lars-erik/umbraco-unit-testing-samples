@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Umbraco.Web;
 using Umbraco.Web.Mvc;
 
 namespace Umb.Testing.Web.Controllers
