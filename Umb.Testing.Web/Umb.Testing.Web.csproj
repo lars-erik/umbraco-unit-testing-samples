@@ -388,7 +388,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ContentController.cs" />
     <Compile Include="Controllers\CtaFormController.cs" />
+    <Compile Include="Models\ContentModel.cs" />
     <Compile Include="Models\FormModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

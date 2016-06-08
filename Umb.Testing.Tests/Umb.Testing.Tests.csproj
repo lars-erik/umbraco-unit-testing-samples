@@ -265,7 +265,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleUmbracoTests\Showing_Cta_Form.cs" />
+    <Compile Include="SampleUmbracoTests\Selecting_Cta_Form %28RenderMvcController%29.cs" />
+    <Compile Include="SampleUmbracoTests\Showing_Cta_Form %28SurfaceController%29.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
