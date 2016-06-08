@@ -47,9 +47,11 @@ namespace Umb.Testing.Tests.SampleUmbracoTests
 
             var user = Mock.Of<IUser>();
             Mock.Get(user).Setup(u => u.Name).Returns(expectedName);
+
             Mock.Get(serviceContext.UserService).Setup(ctx => ctx.GetUserById(StubbedUserId)).Returns(user);
 
             var result = controller.GetUserInfo();
+            
             Console.WriteLine(result);
             Assert.AreEqual(expectedName, result);
         }
