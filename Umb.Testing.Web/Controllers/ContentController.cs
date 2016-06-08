@@ -28,11 +28,9 @@ namespace Umb.Testing.Web.Controllers
         {
             var replacedContent = new ContentModel(model.Content);
             var replacedModel = new RenderModel<ContentModel>(replacedContent);
+            var selection = new CtaFormSelection(HttpContext);
 
-            if (User.Identity.IsAuthenticated)
-                replacedContent.CtaForm = "AuthenticatedForm";
-            else
-                replacedContent.CtaForm = "AnonymousForm";
+            selection.SelectForm(replacedContent);
 
             return base.Index(replacedModel);
         }
