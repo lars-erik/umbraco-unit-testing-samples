@@ -279,6 +279,7 @@
     <Compile Include="SampleUmbracoTests\Getting_Backoffice_Data %28AuthorizedApiController%29.cs" />
     <Compile Include="SampleUmbracoTests\Selecting_CTA_Form %28RenderMvcController%29.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SampleUmbracoTests\Stubbing_Author_And_Date.cs" />
     <Compile Include="SampleUmbracoTests\Stubbing_Published_Properties.cs" />
     <Compile Include="SampleUmbracoTests\Working_With_Database.cs" />
   </ItemGroup>
