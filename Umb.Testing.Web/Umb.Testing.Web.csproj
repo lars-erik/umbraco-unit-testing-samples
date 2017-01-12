@@ -410,11 +410,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\BylineController.cs" />
     <Compile Include="Controllers\ContentController.cs" />
     <Compile Include="Controllers\CtaFormController.cs" />
     <Compile Include="Controllers\SimpleAuthorizedController.cs" />
     <Compile Include="Controllers\SimpleSurfaceController.cs" />
     <Compile Include="Models\AdditionModel.cs" />
+    <Compile Include="Models\BylineModel.cs" />
     <Compile Include="Models\ContentModel.cs" />
     <Compile Include="Models\FormModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
