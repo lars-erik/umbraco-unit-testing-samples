@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Moq;
 using NUnit.Framework;
+using Umb.Testing.Tests.Support;
 using Umb.Testing.Web.Controllers;
 using Umb.Testing.Web.Models;
 using Umbraco.Core.Configuration;
@@ -16,31 +17,23 @@ using Umbraco.Web.Routing;
 namespace Umb.Testing.Tests.SampleUmbracoTests
 {
     [TestFixture]
-    public class Selecting_Cta_Form : BaseRoutingTest
+    public class Selecting_Cta_Form
     {
-        private Mock<ControllerContext> controllerContextMock;
         private UmbracoContext umbracoContext;
         private ContentController contentController;
         private IPublishedContent content;
 
+        readonly UmbracoSupport umbracoSupport = new UmbracoSupport();
+
         [SetUp]
         public void Setup()
         {
-            // Mocked settings are now necessary
-            SettingsForTests.ConfigureSettings(SettingsForTests.GenerateMockSettings());
+            umbracoSupport.SetupUmbraco();
+            umbracoContext = umbracoSupport.UmbracoContext;
+            content = umbracoSupport.CurrentPage;
 
-            // Routing context necessary for published content request
-            var routeData = new RouteData();
-            var routingContext = GetRoutingContext("http://localhost", 1, routeData, true, UmbracoConfig.For.UmbracoSettings());
-            umbracoContext = routingContext.UmbracoContext;
-
-            // Published content request necessary for rendermodel simple ctor (avoid culture)
-            umbracoContext.PublishedContentRequest = new PublishedContentRequest(
-                new Uri("http://localhost"),
-                routingContext,
-                UmbracoConfig.For.UmbracoSettings().WebRouting,
-                s => new string[0]
-                );
+            contentController = new ContentController(umbracoContext);
+            umbracoSupport.PrepareController(contentController);
 
             // ViewEngine mock necessary for template evaluation in base RenderMvcController
             var viewEngineMock = new Mock<IViewEngine>();
@@ -50,23 +43,12 @@ namespace Umb.Testing.Tests.SampleUmbracoTests
             // Clearing necessary to avoid MVC dependency hell
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(viewEngineMock.Object);
+        }
 
-            // ControllerContext mock also necessary for HttpContext and template evaluation in base RenderMvcController
-            controllerContextMock = new Mock<ControllerContext>();
-            controllerContextMock.Setup(c => c.RouteData).Returns(routeData);
-            controllerContextMock.Setup(c => c.HttpContext).Returns(umbracoContext.HttpContext);
-
-            routeData.Values.Add("controller", "Content");
-            routeData.Values.Add("action", "Content");
-
-            // Current page
-            content = Mock.Of<IPublishedContent>();
-
-            // And controller
-            contentController = new ContentController(umbracoContext)
-            {
-                ControllerContext = controllerContextMock.Object
-            };
+        [TearDown]
+        public void TearDown()
+        {
+            umbracoSupport.DisposeUmbraco();
         }
 
         [Test]

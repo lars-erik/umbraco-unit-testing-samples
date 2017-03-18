@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Security.Principal;
 using Moq;
 using NUnit.Framework;
+using Umb.Testing.Tests.Support;
 using Umb.Testing.Web.Controllers;
 using Umbraco.Core;
 using Umbraco.Core.Logging;
@@ -18,19 +19,30 @@ using Umbraco.Web;
 namespace Umb.Testing.Tests.SampleUmbracoTests
 {
     [TestFixture]
-    public class Getting_Backoffice_Data : BaseDatabaseFactoryTest
+    public class Getting_Backoffice_Data
     {
         private const int StubbedUserId = 1;
         private SimpleAuthorizedController controller;
         private ServiceContext serviceContext;
+
         private UmbracoContext umbracoContext;
 
+        private UmbracoSupport umbracoSupport = new UmbracoSupport();
+
         [SetUp]
-        public override void Initialize()
+        public void Initialize()
         {
-            base.Initialize();
-            umbracoContext = GetUmbracoContext("http://localhost", -1, null, true);
+            umbracoSupport.SetupUmbraco();
+            umbracoContext = umbracoSupport.UmbracoContext;
+            serviceContext = umbracoSupport.ServiceContext;
+
             controller = new SimpleAuthorizedController();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            umbracoSupport.DisposeUmbraco();
         }
 
         [Test]
@@ -56,16 +68,16 @@ namespace Umb.Testing.Tests.SampleUmbracoTests
             Assert.AreEqual(expectedName, result);
         }
 
-        protected override ApplicationContext CreateApplicationContext()
-        {
-            serviceContext = MockHelper.GetMockedServiceContext();
-            return new ApplicationContext(
-                new DatabaseContext(new Mock<IDatabaseFactory>().Object, Mock.Of<ILogger>(), Mock.Of<ISqlSyntaxProvider>(), "test"),
-                serviceContext,
-                CacheHelper.CreateDisabledCacheHelper(),
-                new ProfilingLogger(Mock.Of<ILogger>(), Mock.Of<IProfiler>())
-            );
-        }
+        //protected override ApplicationContext CreateApplicationContext()
+        //{
+        //    serviceContext = MockHelper.GetMockedServiceContext();
+        //    return new ApplicationContext(
+        //        new DatabaseContext(new Mock<IDatabaseFactory>().Object, Mock.Of<ILogger>(), Mock.Of<ISqlSyntaxProvider>(), "test"),
+        //        serviceContext,
+        //        CacheHelper.CreateDisabledCacheHelper(),
+        //        new ProfilingLogger(Mock.Of<ILogger>(), Mock.Of<IProfiler>())
+        //    );
+        //}
 
         private UmbracoBackOfficeIdentity CreateIdentity(int userId)
         {

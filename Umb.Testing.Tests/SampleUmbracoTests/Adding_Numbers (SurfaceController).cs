@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Umb.Testing.Tests.Support;
 using Umb.Testing.Web.Controllers;
 using Umb.Testing.Web.Models;
 using Umbraco.Tests.TestHelpers;
@@ -6,12 +7,14 @@ using Umbraco.Tests.TestHelpers;
 namespace Umb.Testing.Tests.SampleUmbracoTests
 {
     [TestFixture]
-    public class Adding_NumbersX : BaseWebTest
+    public class Adding_Numbers
     {
+        private UmbracoSupport support = new UmbracoSupport();
+
         [SetUp]
         public void Setup()
         {
-            GetUmbracoContext("http://localhost", -1, null, true);
+            support.SetupUmbraco();
 
             /*
             Stubbing the UmbracoContext:
@@ -30,6 +33,12 @@ namespace Umb.Testing.Tests.SampleUmbracoTests
 
             var ctrl = new SimpleSurfaceController(umbCtx);
             */
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            support.DisposeUmbraco();
         }
 
         [Test]

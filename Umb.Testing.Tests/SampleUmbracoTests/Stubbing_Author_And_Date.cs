@@ -1,6 +1,7 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
+using Umb.Testing.Tests.Support;
 using Umb.Testing.Web.Controllers;
 using Umb.Testing.Web.Models;
 using Umbraco.Core.Models;
@@ -11,22 +12,26 @@ using Umbraco.Web.Routing;
 namespace Umb.Testing.Tests.SampleUmbracoTests
 {
     [TestFixture]
-    public class Stubbing_Author_And_Date : BaseRoutingTest
+    public class Stubbing_Author_And_Date
     {
         private IPublishedContent content;
-        private UmbracoContext umbracoContext;
-        private UmbracoHelper umbracoHelper;
         private BylineController bylineController;
+
+        readonly UmbracoSupport umbracoSupport = new UmbracoSupport();
 
         [SetUp]
         public void SetUp()
         {
-            content = Mock.Of<IPublishedContent>();
-            var settings = SettingsForTests.GenerateMockSettings();
-            var routingContext = GetRoutingContext("http://localhost", -1, umbracoSettings:settings);
-            umbracoContext = routingContext.UmbracoContext;
-            umbracoHelper = new UmbracoHelper(umbracoContext, content);
-            bylineController = new BylineController(umbracoContext, umbracoHelper);
+            umbracoSupport.SetupUmbraco();
+            content = umbracoSupport.CurrentPage;
+
+            bylineController = new BylineController(umbracoSupport.UmbracoContext, umbracoSupport.UmbracoHelper);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            umbracoSupport.DisposeUmbraco();
         }
 
         [Test]

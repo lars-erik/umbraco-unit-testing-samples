@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
+﻿using System.Linq;
 using NUnit.Framework;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 using Umbraco.Tests.TestHelpers;
-using Umbraco.Web;
 
 namespace Umb.Testing.Tests.SampleUmbracoTests
 {
+    /* NOTE: This is the only test in the repo not using UmbracoSupport.
+     * This is due to the fact that we do full DB integration here.
+     * The UmbracoSupport class is intended for use with stubbed data.      */
     [TestFixture]
     [DatabaseTestBehavior(DatabaseBehavior.NewDbFileAndSchemaPerFixture)]
     public class Working_With_Database : BaseDatabaseFactoryTest
