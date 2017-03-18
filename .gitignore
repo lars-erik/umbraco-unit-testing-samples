@@ -215,3 +215,4 @@ ModelManifest.xml
 umbraco/
 umbraco_client/
 app_data/
+/Umb.Testing.Tests/Umb.Testing.Tests.csproj.DotSettings
