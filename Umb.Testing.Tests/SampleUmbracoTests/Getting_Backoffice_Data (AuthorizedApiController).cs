@@ -89,8 +89,8 @@ namespace Umb.Testing.Tests.SampleUmbracoTests
                 Id = userId,
                 RealName = "hello world",
                 Roles = new[] { "admin" },
-                StartContentNode = -1,
-                StartMediaNode = 654,
+                StartContentNodes = new[] { -1 },
+                StartMediaNodes = new [] { 654 },
                 Username = "testing"
             };
 
