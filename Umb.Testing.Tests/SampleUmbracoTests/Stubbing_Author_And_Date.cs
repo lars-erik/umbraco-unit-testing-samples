@@ -1,11 +1,11 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
-using Umb.Testing.Tests.Support;
 using Umb.Testing.Web.Controllers;
 using Umb.Testing.Web.Models;
 using Umbraco.Core.Models;
 using Umbraco.Tests.TestHelpers;
+using Umbraco.UnitTesting.Adapter.Support;
 using Umbraco.Web;
 using Umbraco.Web.Routing;
 

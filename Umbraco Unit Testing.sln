@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umb.Testing.Web", "Umb.Testing.Web\Umb.Testing.Web.csproj", "{BD3572A8-14C7-43DF-8189-9912433258A9}"
 EndProject
@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Info", "Info", "{72859804-4
 	ProjectSection(SolutionItems) = preProject
 		readme.md = readme.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umbraco.UnitTesting.Adapter", "Umbraco.UnitTesting.Adapter\Umbraco.UnitTesting.Adapter.csproj", "{1AE6FE43-5A60-4DE4-9E4F-FC55980EE45A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,10 @@ Global
 		{40742F2B-02CC-4B94-8084-2362538B09C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40742F2B-02CC-4B94-8084-2362538B09C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40742F2B-02CC-4B94-8084-2362538B09C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AE6FE43-5A60-4DE4-9E4F-FC55980EE45A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AE6FE43-5A60-4DE4-9E4F-FC55980EE45A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AE6FE43-5A60-4DE4-9E4F-FC55980EE45A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AE6FE43-5A60-4DE4-9E4F-FC55980EE45A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

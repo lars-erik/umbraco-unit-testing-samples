@@ -14,7 +14,7 @@ using Umbraco.Web;
 using Umbraco.Web.Mvc;
 using Umbraco.Web.Routing;
 
-namespace Umb.Testing.Tests.Support
+namespace Umbraco.UnitTesting.Adapter.Support
 {
     public class UmbracoSupport : BaseRoutingTest
     {

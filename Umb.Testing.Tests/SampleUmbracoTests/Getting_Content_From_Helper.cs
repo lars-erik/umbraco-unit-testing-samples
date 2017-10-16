@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Umb.Testing.Tests.Support;
+using Umbraco.UnitTesting.Adapter.Support;
 
 namespace Umb.Testing.Tests.SampleUmbracoTests
 {

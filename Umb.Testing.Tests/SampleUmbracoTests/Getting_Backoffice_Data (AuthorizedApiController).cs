@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Security.Principal;
 using Moq;
 using NUnit.Framework;
-using Umb.Testing.Tests.Support;
 using Umb.Testing.Web.Controllers;
 using Umbraco.Core;
 using Umbraco.Core.Logging;
@@ -14,6 +13,7 @@ using Umbraco.Core.Profiling;
 using Umbraco.Core.Security;
 using Umbraco.Core.Services;
 using Umbraco.Tests.TestHelpers;
+using Umbraco.UnitTesting.Adapter.Support;
 using Umbraco.Web;
 
 namespace Umb.Testing.Tests.SampleUmbracoTests

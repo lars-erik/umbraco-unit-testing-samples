@@ -1,8 +1,8 @@
 ﻿using Moq;
 using NUnit.Framework;
-using Umb.Testing.Tests.Support;
 using Umb.Testing.Web.Controllers;
 using Umb.Testing.Web.Models;
+using Umbraco.UnitTesting.Adapter.Support;
 
 namespace Umb.Testing.Tests.SampleUmbracoTests
 {
