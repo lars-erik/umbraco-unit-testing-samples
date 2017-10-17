@@ -270,6 +270,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Support\FakeTypedModelFactory.cs" />
     <Compile Include="Support\UmbracoSupport.cs" />
   </ItemGroup>
   <ItemGroup>

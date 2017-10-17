@@ -216,3 +216,10 @@ umbraco/
 umbraco_client/
 app_data/
 /Umb.Testing.Tests/Umb.Testing.Tests.csproj.DotSettings
+/Umb.Testing.Web/App_Plugins/NestedContent
+/Umb.Testing.Web/App_Plugins/Terratype
+/Umb.Testing.Web/App_Plugins/Terratype.GoogleMapsV3
+/Umb.Testing.Web/css
+/Umb.Testing.Web/Media
+/Umb.Testing.Web/Views
+/Umb.Testing.Web/Scripts

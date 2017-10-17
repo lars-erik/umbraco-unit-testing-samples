@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -7,7 +9,11 @@ using Moq;
 using Umbraco.Core;
 using Umbraco.Core.Configuration.UmbracoSettings;
 using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
+using Umbraco.Core.ObjectResolution;
 using Umbraco.Core.Persistence;
+using Umbraco.Core.PropertyEditors;
+using Umbraco.Core.PropertyEditors.ValueConverters;
 using Umbraco.Core.Services;
 using Umbraco.Tests.TestHelpers;
 using Umbraco.Web;
@@ -32,6 +38,10 @@ namespace Umbraco.UnitTesting.Adapter.Support
 
         public string ContentCacheXml { get; set; }
 
+        public FakeContentModelFactory ModelFactory => fakeContentModelFactory;
+
+        public List<Type> ConverterTypes => converterTypes;
+
         /// <summary>
         /// Initializes a stubbed Umbraco request context. Generally called from [SetUp] methods.
         /// Remember to call UmbracoSupport.DisposeUmbraco from your [TearDown].
@@ -39,6 +49,7 @@ namespace Umbraco.UnitTesting.Adapter.Support
         public void SetupUmbraco()
         {
             InitializeFixture();
+            InitializeResolvers();
             TryBaseInitialize();
 
             InitializeSettings();
@@ -89,17 +100,32 @@ namespace Umbraco.UnitTesting.Adapter.Support
         private RouteData routeData;
         private UmbracoHelper umbracoHelper;
         private PublishedContentRequest publishedContentRequest;
+        private FakeContentModelFactory fakeContentModelFactory;
+        private readonly List<Type> converterTypes = new List<Type>();
 
         protected override ApplicationContext CreateApplicationContext()
         {
             // Overrides the base CreateApplicationContext to inject a completely stubbed servicecontext
             serviceContext = MockHelper.GetMockedServiceContext();
             var appContext = new ApplicationContext(
-                new DatabaseContext(Mock.Of<IDatabaseFactory>(), Logger, SqlSyntax, GetDbProviderName()),
+                new DatabaseContext(Mock.Of<IDatabaseFactory2>(), Logger, SqlSyntax, GetDbProviderName()),
                 serviceContext,
                 CacheHelper,
                 ProfilingLogger);
             return appContext;
+        }
+
+        private void InitializeResolvers()
+        {
+            fakeContentModelFactory = new FakeContentModelFactory();
+
+            PublishedContentModelFactoryResolver.Current = new FakeModelFactoryResolver(fakeContentModelFactory);
+
+            PropertyValueConvertersResolver.Current = new PropertyValueConvertersResolver(
+                new ActivatorServiceProvider(),
+                Logger,
+                converterTypes
+            );
         }
 
         private void TryBaseInitialize()
@@ -168,6 +194,25 @@ namespace Umbraco.UnitTesting.Adapter.Support
             };
 
             routeData.DataTokens.Add("umbraco-route-def", routeDefinition);
+            routeData.DataTokens.Add("umbraco-doc-request", publishedContentRequest);
+        }
+
+        public void SetupContentType(string alias, PropertyType[] propertyTypes)
+        {
+            // This one is reset in each BaseWebTest.Initialize.
+            // To be able to provide "real" stubbed content types,
+            // it has to be reset for each test.
+            PublishedContentType.GetPublishedContentTypeCallback = null;
+
+            var contentType = Mock.Of<IContentType>();
+
+            Mock.Get(this.ServiceContext.ContentTypeService)
+                .Setup(s => s.GetContentType(alias))
+                .Returns(contentType);
+
+            Mock.Get(contentType)
+                .Setup(t => t.CompositionPropertyTypes)
+                .Returns(propertyTypes);
         }
     }
 }
