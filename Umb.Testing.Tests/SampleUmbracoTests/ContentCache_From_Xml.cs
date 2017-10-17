@@ -19,6 +19,8 @@ namespace Umb.Testing.Tests.SampleUmbracoTests
     ")]
     public class ContentCache_From_Xml
     {
+        // Note: Setup and privates are below the tests. ;)
+
         [Test]
         [Description(@"
         An actual XmlPublishedContent is returned with all the built-in primitive data.
