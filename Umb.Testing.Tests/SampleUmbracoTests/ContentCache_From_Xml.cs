@@ -71,7 +71,7 @@ namespace Umb.Testing.Tests.SampleUmbracoTests
         You can register types by calling register with the alias and a lambda with the constructor.
         Property value converter types need to be registered in setup before SetupUmbraco.
         ")]
-        public void As_Typed_Content()
+        public void With_DocumentTypes_And_Models_Setup_Returns_Fully_Functional_Typed_Content()
         {
             SetupContentType();
 
