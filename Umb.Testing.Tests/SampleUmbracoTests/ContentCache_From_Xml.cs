@@ -38,6 +38,10 @@ namespace Umb.Testing.Tests.SampleUmbracoTests
                 .Property("Name").EqualTo("Page 1")
                 .And
                 .Matches<IPublishedContent>(c => c["title"] == null)
+                .And
+                .Property("Parent")
+                    .Property("Children")
+                        .With.Count.EqualTo(2)
             );
         }
 
