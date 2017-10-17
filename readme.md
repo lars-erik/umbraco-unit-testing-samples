@@ -3,9 +3,17 @@
 This is a playground for unit-tests with Umbraco.  
 Samples include stubbing all dependencies, as well as techniques for avoiding stub purgatory.
 
+All the samples exploit a class called `UmbracoSupport` that you should include in your solution.
+See the notes about adapter assembly. This class contains almost everything you need to set up
+tests with Umbraco. It depends on, and relies heavily on Umbraco's own tests.  
+Those are available via Nuget as the community built package `Our.Umbraco.Community.Tests`.
+(Thanks @kedde)
+
 ### Notes
 
 #### Database
+- The database tests currently doesn't work. I'm sure it has to do with the UmbracoSupport class or maybe the transactions. :)
+  Leave it for now.
 - The database is empty. Clear the connection string and run the installer to have the web project run. No starterkit needed.
 - If database tests break, make sure to copy subfolders from web\bin to tests\bin output.
 
