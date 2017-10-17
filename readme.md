@@ -3,7 +3,8 @@
 This is a playground for unit-tests with Umbraco.  
 Samples include stubbing all dependencies, as well as techniques for avoiding stub purgatory.
 
-All the samples exploit a class called `UmbracoSupport` that you should include in your solution.
+All the samples exploit a class called [`UmbracoSupport`](Umbraco.UnitTesting.Adapter/Support/UmbracoSupport.cs)
+ that you should include in your solution.
 See the notes about adapter assembly. This class contains almost everything you need to set up
 tests with Umbraco. It depends on, and relies heavily on Umbraco's own tests.  
 Those are available via Nuget as the community built package `Our.Umbraco.Community.Tests`.
@@ -21,7 +22,7 @@ Those are available via Nuget as the community built package `Our.Umbraco.Commun
 #### Adapter assembly and internals
 
 - In Umbraco 7.6.4, a new `InternalVisibleTo` was added for the assembly `Umbraco.UnitTesting.Adapter`.
-By putting [support code](#) in a project with that assembly name and referencing it in your test,
+By putting [support code](Umbraco.UnitTesting.Adapter/Support/UmbracoSupport.cs) in a project with that assembly name and referencing it in your test,
 you may call Umbraco internals without reflection from your tests. This technique is _strongly discouraged_ for production code.
 The internals _will change!_
 - For pre Umbraco 7.6.4 you can use the assembly name `Umbraco.VisualStudio`.
