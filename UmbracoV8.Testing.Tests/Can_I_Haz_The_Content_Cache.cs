@@ -27,6 +27,10 @@ namespace UmbracoV8.Testing.Tests
             var content = Current.UmbracoContext.ContentCache.GetById(2);
 
             Console.WriteLine(content.Value<IHtmlString>("body"));
+            Assert.AreEqual(
+                "<p>Lorem ipsum dolor etc. what do I know.</p>", 
+                content.Value<IHtmlString>("body").ToHtmlString()
+            );
         }
 
         protected override void PopulateCache(PublishedContentTypeFactory factory, SolidPublishedContentCache cache)
