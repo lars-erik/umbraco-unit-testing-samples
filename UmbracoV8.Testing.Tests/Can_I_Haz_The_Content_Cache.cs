@@ -14,17 +14,19 @@ namespace UmbracoV8.Testing.Tests
     [UmbracoTest(TypeLoader = UmbracoTestOptions.TypeLoader.PerFixture)]
     public class Can_I_Haz_The_Content_Cache : PublishedContentSnapshotTestBase
     {
+        public Can_I_Haz_The_Content_Cache()
+        {
+            // TODO: Move to onetime setup
+            TestOptionAttributeBase.ScanAssemblies.Clear();
+            TestOptionAttributeBase.ScanAssemblies.Add(GetType().Assembly.FullName);
+        }
+
         [Test]
         public void Yes_I_Can()
         {
-            var content = Current.UmbracoContext.ContentCache.GetById(new Guid("EFD46B40-662C-4A06-9C77-0C2CE9F22828"));
-            Console.WriteLine(content.Value<IHtmlString>("body"));
-        }
+            var content = Current.UmbracoContext.ContentCache.GetById(2);
 
-        protected override void Compose()
-        {
-            base.Compose();
-            Composition.RegisterUnique(_ => TestObjects.GetServiceContextMock(Factory));
+            Console.WriteLine(content.Value<IHtmlString>("body"));
         }
 
         protected override void PopulateCache(PublishedContentTypeFactory factory, SolidPublishedContentCache cache)
@@ -45,13 +47,15 @@ namespace UmbracoV8.Testing.Tests
                     {
                         Alias = "title",
                         PropertyType = titleProp,
-                        SolidSourceValue = "<h1>Hi there!</h1>"
+                        SolidSourceValue = "<h1>Hi there!</h1>",
+                        SolidValue = new HtmlString("<h1>Hi there!</h1>")
                     }, 
                     new SolidPublishedProperty
                     {
                         Alias = "body",
                         PropertyType = titleProp,
-                        SolidSourceValue = "<p>Lorem ipsum dolor etc. what do I know.</p>"
+                        SolidSourceValue = "<p>Lorem ipsum dolor etc. what do I know.</p>",
+                        SolidValue = new HtmlString("<p>Lorem ipsum dolor etc. what do I know.</p>")
                     }, 
                 }
             };
