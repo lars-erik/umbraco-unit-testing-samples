@@ -14,13 +14,14 @@ using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.Services;
+using Umbraco.Tests.PublishedContent;
 using Umbraco.Tests.TestHelpers;
 using Umbraco.Web;
 using Umbraco.Web.Mvc;
 
 namespace Umbraco.UnitTesting.Adapter
 {
-    public class UmbracoSupport : BaseWebTest
+    public class UmbracoSupport : PublishedContentSnapshotTestBase
     {
         public UmbracoContext UmbracoContext => umbracoContext;
 
@@ -157,6 +158,11 @@ namespace Umbraco.UnitTesting.Adapter
         {
             // Route data is used in many of the contexts, and might need more data throughout your tests.
             routeData = new RouteData();
+        }
+
+        public override void PopulateCache(PublishedContentTypeFactory factory, SolidPublishedContentCache cache)
+        {
+            throw new NotImplementedException();
         }
 
         //private void CreateContexts()

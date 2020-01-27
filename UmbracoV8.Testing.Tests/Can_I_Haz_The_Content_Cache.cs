@@ -18,7 +18,7 @@ namespace UmbracoV8.Testing.Tests
         {
             // TODO: Move to onetime setup
             TestOptionAttributeBase.ScanAssemblies.Clear();
-            TestOptionAttributeBase.ScanAssemblies.Add(GetType().Assembly.FullName);
+            TestOptionAttributeBase.ScanAssemblies.Add(GetType().Assembly);
         }
 
         [Test]
@@ -33,12 +33,12 @@ namespace UmbracoV8.Testing.Tests
             );
         }
 
-        protected override void PopulateCache(PublishedContentTypeFactory factory, SolidPublishedContentCache cache)
+        public override void PopulateCache(PublishedContentTypeFactory factory, SolidPublishedContentCache cache)
         {
             var titleProp = factory.CreatePropertyType("title", 1);
             var bodyProp = factory.CreatePropertyType("body", 1);
 
-            var contentType = factory.CreateContentType(1, "page", new[] {titleProp, bodyProp});
+            var contentType = factory.CreateContentType(1, "page", ct => new[] {titleProp, bodyProp});
 
             var content = new SolidPublishedContent(contentType)
             {

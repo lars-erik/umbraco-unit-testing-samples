@@ -14,6 +14,7 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <InternalsAssemblyNames>Umbraco.Core;Umbraco.Web;Umbraco.Tests</InternalsAssemblyNames>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -245,8 +246,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UmbracoSupport.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -259,5 +260,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets'))" />
+    <Error Condition="!Exists('..\packages\IgnoresAccessChecksToGenerator.0.4.0\build\IgnoresAccessChecksToGenerator.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\IgnoresAccessChecksToGenerator.0.4.0\build\IgnoresAccessChecksToGenerator.targets'))" />
   </Target>
+  <Import Project="..\packages\IgnoresAccessChecksToGenerator.0.4.0\build\IgnoresAccessChecksToGenerator.targets" Condition="Exists('..\packages\IgnoresAccessChecksToGenerator.0.4.0\build\IgnoresAccessChecksToGenerator.targets')" />
 </Project>

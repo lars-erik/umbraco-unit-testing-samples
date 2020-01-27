@@ -15,6 +15,7 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <InternalsAssemblyNames>Umbraco.Core;Umbraco.Web;Umbraco.Tests</InternalsAssemblyNames>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -261,5 +262,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets'))" />
     <Error Condition="!Exists('..\packages\NUnit.3.11.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.11.0\build\NUnit.props'))" />
+    <Error Condition="!Exists('..\packages\IgnoresAccessChecksToGenerator.0.4.0\build\IgnoresAccessChecksToGenerator.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\IgnoresAccessChecksToGenerator.0.4.0\build\IgnoresAccessChecksToGenerator.targets'))" />
   </Target>
+  <Import Project="..\packages\IgnoresAccessChecksToGenerator.0.4.0\build\IgnoresAccessChecksToGenerator.targets" Condition="Exists('..\packages\IgnoresAccessChecksToGenerator.0.4.0\build\IgnoresAccessChecksToGenerator.targets')" />
 </Project>
