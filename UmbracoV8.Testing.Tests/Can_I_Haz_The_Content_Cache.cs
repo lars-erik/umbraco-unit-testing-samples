@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Web;
+using CSharpTest.Net.Collections;
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -33,11 +34,17 @@ namespace UmbracoV8.Testing.Tests
         private IPublishedPropertyType titleProp;
         private IPublishedPropertyType bodyProp;
         private SolidPublishedContent solidContent;
+        private BPlusTree<int, ContentNodeKit> allContentKits;
+        private ContentCacheSupport contentCacheSupport;
 
         public Can_I_Haz_The_Content_Cache()
         {
             UmbracoSupport.RegisterForTesting(this);
-            support = new UmbracoSupport();
+            
+            contentCacheSupport = new ContentCacheSupport();
+            allContentKits = contentCacheSupport.GetFromCacheFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\UmbracoV8.Testing.Web\App_Data\TEMP\NuCache\NuCache.Content.db"));
+
+            support = new UmbracoSupport(allContentKits);
         }
 
         [SetUp]
@@ -46,8 +53,7 @@ namespace UmbracoV8.Testing.Tests
             // TODO: Move to onetime setup
 
             support.SetupUmbraco();
-
-
+            support.SetupSnapshot();
 
             SetupContentType();
             //StubContentBySolidPublishedContent();
@@ -74,9 +80,7 @@ namespace UmbracoV8.Testing.Tests
         [Test]
         public void From_Json_Serialized_Data_Via_The_NuCache_File()
         {
-            var cacheSupport = new ContentCacheSupport();
-            var allContent = cacheSupport.GetFromCacheFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\UmbracoV8.Testing.Web\App_Data\TEMP\NuCache\NuCache.Content.db"));
-            var homeNode = allContent.First().Value;
+            var homeNode = allContentKits.First().Value;
 
             var firstPublished = support.CreatePublishedContent(homeNode, contentType);
 
@@ -88,13 +92,20 @@ namespace UmbracoV8.Testing.Tests
         }
 
         [Test]
-        public void Through_Queries()
+        public void The_Whole_List()
         {
-            var cacheSupport = new ContentCacheSupport();
-            var allContent = cacheSupport.GetFromCacheFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\UmbracoV8.Testing.Web\App_Data\TEMP\NuCache\NuCache.Content.db"));
-            var allPublished = allContent.Select(x => support.CreatePublishedContent(x.Value, contentType));
-            Console.WriteLine(JsonConvert.SerializeObject(allContent, Formatting.Indented));
+            var allPublished = allContentKits.Select(x => support.CreatePublishedContent(x.Value, contentType));
+            Console.WriteLine(JsonConvert.SerializeObject(allContentKits, Formatting.Indented));
             Console.WriteLine(JsonConvert.SerializeObject(allPublished, Formatting.Indented));
+        }
+
+        [Test]
+        public void Do_We_Have_Children()
+        {
+            var allPublished = allContentKits.Select(x => support.CreatePublishedContent(x.Value, contentType));
+            var home = allPublished.First();
+            var children = home.Children();
+            Console.WriteLine(JsonConvert.SerializeObject(children, Formatting.Indented));
         }
 
         //private void StubContentBySolidPublishedContent()
