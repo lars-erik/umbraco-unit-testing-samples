@@ -6,6 +6,7 @@ using CSharpTest.Net.Collections;
 using Moq;
 using Umbraco.Core;
 using Umbraco.Core.Cache;
+using Umbraco.Core.Composing;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
@@ -14,9 +15,10 @@ using Umbraco.Core.Xml;
 using Umbraco.Tests.PublishedContent;
 using Umbraco.Tests.TestHelpers;
 using Umbraco.Tests.Testing;
-using Umbraco.Web.Composing;
+using Umbraco.Web;
 using Umbraco.Web.PublishedCache;
 using Umbraco.Web.PublishedCache.NuCache;
+using Current = Umbraco.Web.Composing.Current;
 
 namespace Umbraco.UnitTesting.Adapter
 {
@@ -33,6 +35,7 @@ namespace Umbraco.UnitTesting.Adapter
         private IPublishedContentCache fakeContentCache;
         private IPublishedSnapshotAccessor snapshotAccessor;
         private ContentStore contentStore;
+        private Action<Composition> compose;
 
         public UmbracoSupport(BPlusTree<int, ContentNodeKit> localDb = null)
         {
@@ -44,19 +47,27 @@ namespace Umbraco.UnitTesting.Adapter
         public static void RegisterForTesting<TFromAssembly>(TFromAssembly instance = null)
             where TFromAssembly : class
         {
-            var asm = typeof(TFromAssembly).Assembly;
+            var type = typeof(TFromAssembly);
+            var asm = type.Assembly;
             if (TestOptionAttributeBase.ScanAssemblies.All(x => x != asm))
             { 
                 TestOptionAttributeBase.ScanAssemblies.Add(asm);
             }
         }
 
+        public UmbracoContext GetUmbracoContext(string url)
+        {
+            return base.GetUmbracoContext(url, -1, setSingleton: true);
+        }
+
         /// <summary>
         /// Initializes a stubbed Umbraco request context. Generally called from [SetUp] methods.
         /// Remember to call UmbracoSupport.DisposeUmbraco from your [TearDown].
         /// </summary>
-        public void SetupUmbraco()
+        public void SetupUmbraco(Action<Composition> compose = null)
         {
+            this.compose = compose;
+
             //RegisterForTesting(this);
             base.SetUp();
 
@@ -78,6 +89,13 @@ namespace Umbraco.UnitTesting.Adapter
 
         }
 
+        protected override void Compose()
+        {
+            base.Compose();
+
+            compose?.Invoke(Composition);
+        }
+        
         public void SetupSnapshot()
         {
             snapshotAccessor = Current.Factory.GetInstance<IPublishedSnapshotAccessor>();
