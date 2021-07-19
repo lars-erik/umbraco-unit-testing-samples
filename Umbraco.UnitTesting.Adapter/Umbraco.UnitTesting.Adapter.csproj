@@ -14,9 +14,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Moq" Version="4.16.1" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Umbraco.Cms.Core" Version="9.0.0-rc001" />
         <PackageReference Include="Umbraco.Cms.Infrastructure" Version="9.0.0-rc001" />
         <PackageReference Include="Umbraco.Cms.PublishedCache.NuCache" Version="9.0.0-rc001" />
+        <PackageReference Include="Umbraco.Cms.Tests" Version="9.0.0-rc001" />
     </ItemGroup>
 
 </Project>

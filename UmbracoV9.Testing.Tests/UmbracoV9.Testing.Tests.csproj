@@ -11,6 +11,7 @@
         <PackageReference Include="Umbraco.Cms.Core" Version="9.0.0-rc001" />
         <PackageReference Include="Umbraco.Cms.Infrastructure" Version="9.0.0-rc001" />
         <PackageReference Include="Umbraco.Cms.PublishedCache.NuCache" Version="9.0.0-rc001" />
+        <PackageReference Include="Umbraco.Cms.Tests" Version="9.0.0-rc001" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
