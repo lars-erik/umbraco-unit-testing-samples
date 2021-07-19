@@ -1,24 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Web;
 using CSharpTest.Net.Collections;
-using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using Umbraco.Web.Composing;
 using Umbraco.Core.Models.PublishedContent;
-using Umbraco.Tests.PublishedContent;
-using Umbraco.Tests.TestHelpers;
 using Umbraco.Tests.Testing;
 using Umbraco.UnitTesting.Adapter;
-using Umbraco.Core;
-using Umbraco.Core.Cache;
-using Umbraco.Core.Logging;
-using Umbraco.Core.Models;
-using Umbraco.Core.PropertyEditors;
 using Umbraco.Web;
-using Umbraco.Web.PublishedCache;
 using Umbraco.Web.PublishedCache.NuCache;
 
 namespace UmbracoV8.Testing.Tests
@@ -30,10 +19,6 @@ namespace UmbracoV8.Testing.Tests
     {
         private UmbracoSupport support;
 
-        private IPublishedContentType contentType;
-        private IPublishedPropertyType titleProp;
-        private IPublishedPropertyType bodyProp;
-        private SolidPublishedContent solidContent;
         private BPlusTree<int, ContentNodeKit> allContentKits;
         private ContentCacheSupport contentCacheSupport;
 
@@ -97,8 +82,8 @@ namespace UmbracoV8.Testing.Tests
         {
             var noProps = Enumerable.Empty<IPublishedPropertyType>();
 
-            titleProp = support.CreatePropertyType("pageTitle", 1);
-            bodyProp = support.CreatePropertyType("bodyText", 1);
+            var titleProp = support.CreatePropertyType("pageTitle", 1);
+            var bodyProp = support.CreatePropertyType("bodyText", 1);
             var contentBaseProps = new[] { titleProp, bodyProp };
             //contentType = support.CreateContentType(1, "page", ct => contentBaseProps);
 
