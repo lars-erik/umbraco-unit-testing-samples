@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+
+
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="IgnoresAccessChecksToGenerator" />
+    </ItemGroup>
+    <PropertyGroup>
+        <InternalsAssemblyNames>Umbraco.Core;Umbraco.Infrastructure;Umbraco.PublishedCache.NuCache</InternalsAssemblyNames>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Umbraco.Cms.Core" Version="9.0.0-rc001" />
+        <PackageReference Include="Umbraco.Cms.Infrastructure" Version="9.0.0-rc001" />
+        <PackageReference Include="Umbraco.Cms.PublishedCache.NuCache" Version="9.0.0-rc001" />
+    </ItemGroup>
+
+</Project>
