@@ -40,17 +40,16 @@ namespace UmbracoV8.Testing.Tests
         public Can_I_Haz_The_Content_Cache()
         {
             UmbracoSupport.RegisterForTesting(this);
-            
-            contentCacheSupport = new ContentCacheSupport();
-            allContentKits = contentCacheSupport.GetFromCacheFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\UmbracoV8.Testing.Web\App_Data\TEMP\NuCache\NuCache.Content.db"));
-
-            support = new UmbracoSupport(allContentKits);
-            SetupContentTypes();
         }
 
         [SetUp]
         public void SetUp()
         {
+            contentCacheSupport = new ContentCacheSupport();
+            allContentKits = contentCacheSupport.GetFromCacheFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\UmbracoV8.Testing.Web\App_Data\TEMP\NuCache\NuCache.Content.db"));
+
+            support = new UmbracoSupport(allContentKits);
+            SetupContentTypes();
             support.SetupUmbraco();
         }
 
@@ -58,6 +57,7 @@ namespace UmbracoV8.Testing.Tests
         public void TearDown()
         {
             support.DisposeUmbraco();
+            allContentKits.Dispose();
         }
 
         [Test]
@@ -74,6 +74,20 @@ namespace UmbracoV8.Testing.Tests
         }
 
         [Test]
+        public void Write_First_Child_Node_From_Content_Cache()
+        {
+            var ctx = support.GetUmbracoContext("/", setSingleton:true);
+            var firstChild = ctx.Content.GetById(1104).FirstChild();
+
+            Console.WriteLine(JsonConvert.SerializeObject(firstChild, 
+                new JsonSerializerSettings { 
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    Formatting = Formatting.Indented
+                }));
+        }
+
+        [Test]
+        [Explicit]
         public void Write_All_Content_Kits()
         {
             Console.WriteLine(JsonConvert.SerializeObject(allContentKits.Select(x => new{x.Key, x.Value.ContentTypeId, x.Value.PublishedData.Name}), Formatting.Indented));

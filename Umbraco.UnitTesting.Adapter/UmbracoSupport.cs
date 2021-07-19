@@ -39,7 +39,6 @@ namespace Umbraco.UnitTesting.Adapter
         private PublishedContentTypeFactory publishedContentTypeFactory;
         private IPublishedSnapshot snapshot;
         private DictionaryAppCache appCache;
-        private IPublishedContentCache fakeContentCache;
         private IPublishedSnapshotAccessor snapshotAccessor;
         private ContentStore contentStore;
         private Action<Composition> compose;
@@ -63,8 +62,6 @@ namespace Umbraco.UnitTesting.Adapter
                 dataTypeService
             );
         }
-
-        public IPublishedContentCache ContentCache => fakeContentCache;
 
         public static void RegisterForTesting<TFromAssembly>(TFromAssembly instance = null)
             where TFromAssembly : class
@@ -189,138 +186,6 @@ namespace Umbraco.UnitTesting.Adapter
         {
             var publishedContentType = publishedContentTypeFactory.CreateContentType(Guid.NewGuid(), id, alias, propertyFactory);
             contentTypes.Add(publishedContentType);
-        }
-
-        public IPublishedContent CreatePublishedContent(ContentNodeKit contentNode, IPublishedContentType contentType)
-        {
-            contentNode.Node.ContentType = contentType;
-
-            var published = new PublishedContent(
-                contentNode.Node,
-                contentNode.PublishedData,
-                snapshotAccessor,
-                Current.Factory.GetInstance<IVariationContextAccessor>()
-            );
-
-            return published;
-        }
-    }
-
-
-    class FakePublishedContentCache : PublishedCacheBase, IPublishedContentCache, IPublishedMediaCache
-    {
-        private readonly Dictionary<int, IPublishedContent> _content = new Dictionary<int, IPublishedContent>();
-
-        public FakePublishedContentCache()
-            : base(false)
-        { }
-
-        public void Add(IPublishedContent content)
-        {
-            _content[content.Id] = PublishedContentExtensionsForModels.CreateModel(content);
-        }
-
-        public void Clear()
-        {
-            _content.Clear();
-        }
-
-        public IPublishedContent GetByRoute(bool preview, string route, bool? hideTopLevelNode = null, string culture = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IPublishedContent GetByRoute(string route, bool? hideTopLevelNode = null, string culture = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetRouteById(bool preview, int contentId, string culture = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetRouteById(int contentId, string culture = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override IPublishedContent GetById(bool preview, int contentId)
-        {
-            return _content.ContainsKey(contentId) ? _content[contentId] : null;
-        }
-
-        public override IPublishedContent GetById(bool preview, Guid contentId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override IPublishedContent GetById(bool preview, Udi nodeId)
-            => throw new NotSupportedException();
-
-        public override bool HasById(bool preview, int contentId)
-        {
-            return _content.ContainsKey(contentId);
-        }
-
-        public override IEnumerable<IPublishedContent> GetAtRoot(bool preview, string culture = null)
-        {
-            return _content.Values.Where(x => x.Parent == null);
-        }
-
-        public override IPublishedContent GetSingleByXPath(bool preview, string xpath, Core.Xml.XPathVariable[] vars)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override IPublishedContent GetSingleByXPath(bool preview, System.Xml.XPath.XPathExpression xpath, Core.Xml.XPathVariable[] vars)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override IEnumerable<IPublishedContent> GetByXPath(bool preview, string xpath, Core.Xml.XPathVariable[] vars)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override IEnumerable<IPublishedContent> GetByXPath(bool preview, System.Xml.XPath.XPathExpression xpath, Core.Xml.XPathVariable[] vars)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override System.Xml.XPath.XPathNavigator CreateNavigator(bool preview)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override System.Xml.XPath.XPathNavigator CreateNodeNavigator(int id, bool preview)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool HasContent(bool preview)
-        {
-            return _content.Count > 0;
-        }
-
-        public override IPublishedContentType GetContentType(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override IPublishedContentType GetContentType(string alias)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override IPublishedContentType GetContentType(Guid key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override IEnumerable<IPublishedContent> GetByContentType(IPublishedContentType contentType)
-        {
-            throw new NotImplementedException();
         }
     }
 }
