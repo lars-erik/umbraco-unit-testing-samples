@@ -8,14 +8,15 @@
         <ProjectReference Include="./../Umbraco.UnitTesting.Adapter/Umbraco.UnitTesting.Adapter.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Umbraco.Cms.Core" Version="9.0.0-rc001" />
-        <PackageReference Include="Umbraco.Cms.Infrastructure" Version="9.0.0-rc001" />
-        <PackageReference Include="Umbraco.Cms.PublishedCache.NuCache" Version="9.0.0-rc001" />
-        <PackageReference Include="Umbraco.Cms.Tests" Version="9.0.0-rc001" />
+        <PackageReference Include="Umbraco.Cms.Core" Version="9.0.0-rcp002" />
+        <PackageReference Include="Umbraco.Cms.Infrastructure" Version="9.0.0-rcp002" />
+        <PackageReference Include="Umbraco.Cms.PublishedCache.NuCache" Version="9.0.0-rcp002" />
+        <PackageReference Include="Umbraco.Cms.Tests" Version="9.0.0-rcp002" />
+        <PackageReference Include="Umbraco.Cms.Tests.Integration" Version="9.0.0-rcp002" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
-        <PackageReference Include="NUnit" Version="3.9.0" />
-        <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
+        <PackageReference Include="NUnit" Version="3.13.1" />
+        <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     </ItemGroup>
 </Project>
