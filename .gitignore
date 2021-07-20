@@ -36,6 +36,7 @@ msbuild.wrn
 # Visual Studio 2015
 .vs/
 
+UmbracoV9.Testing.Tests/umbraco/Data/
 UmbracoV9.Testing.Web/umbraco/Data/
 UmbracoV9.Testing.Web/umbraco/Logs/
 UmbracoV9.Testing.Web/wwwroot/umbraco/

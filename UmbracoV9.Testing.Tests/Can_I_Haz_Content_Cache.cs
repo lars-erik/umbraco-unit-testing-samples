@@ -3,7 +3,11 @@ using System.Linq;
 using CSharpTest.Net.Collections;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using Umbraco.Cms.Core.Models;
+using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Infrastructure.PublishedCache;
+using Umbraco.Cms.Tests.Common.Builders;
+using Umbraco.Cms.Tests.Common.Builders.Extensions;
 using Umbraco.Cms.Tests.Common.Testing;
 using Umbraco.UnitTesting.Adapter;
 
@@ -29,6 +33,11 @@ namespace UmbracoV9.Testing.Tests
 
             support = new UmbracoSupport(allContentKits);
             support.Setup();
+
+            SetupContentTypes();
+
+            support.SetupContentCache();
+
         }
 
         [Test]
@@ -41,6 +50,28 @@ namespace UmbracoV9.Testing.Tests
                 Formatting = Formatting.Indented,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             }));
+        }
+
+        private void SetupContentTypes()
+        {
+            var dataType = new DataTypeBuilder()
+                .WithId(1)
+                .WithDatabaseType(ValueStorageType.Ntext)
+                .WithName("Title")
+                .Build();
+            support.GetService<IDataTypeService>().Save(dataType);
+
+            var contentTypeBuilder = new ContentTypeBuilder();
+            var homeType = contentTypeBuilder
+                .WithAlias("home")
+                .WithId(1055)
+                .Build();
+            var pageType = contentTypeBuilder
+                .WithAlias("page")
+                .WithId(1056)
+                .Build();
+            support.GetService<IContentTypeService>().Save(homeType);
+            support.GetService<IContentTypeService>().Save(pageType);
         }
 
         [TearDown]

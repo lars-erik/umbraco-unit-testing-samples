@@ -31,15 +31,12 @@ using Umbraco.Extensions;
 
 namespace Umbraco.UnitTesting.Adapter
 {
-    using CacheKeys = Umbraco.Cms.Infrastructure.PublishedCache.CacheKeys;
-
     [UmbracoTest(Database = UmbracoTestOptions.Database.None)]
     public class UmbracoSupport : UmbracoIntegrationTest
     {
         private readonly BPlusTree<int, ContentNodeKit> localDb;
         private IPublishedSnapshot publishedSnapshot;
         private IPublishedSnapshotAccessor publishedSnapshotAccessor;
-        private IPublishedContentCache contentCache;
         private FakeDataTypeService dataTypeService;
         private FakeContentTypeService contentTypeService;
         private ContentStore contentStore;
@@ -53,28 +50,16 @@ namespace Umbraco.UnitTesting.Adapter
         public override void Setup()
         {
             base.Setup();
+            SetupRequest();
+        }
 
+        public T GetService<T>()
+        {
+            return GetRequiredService<T>();
+        }
 
-            var dataType = new DataTypeBuilder()
-                .WithId(1)
-                .WithDatabaseType(ValueStorageType.Ntext)
-                .WithName("Title")
-                .Build();
-            dataTypeService.Save(dataType);
-
-            var contentTypeBuilder = new ContentTypeBuilder();
-            var homeType = contentTypeBuilder
-                .WithAlias("home")
-                .WithId(1055)
-                .Build();
-            var pageType = contentTypeBuilder
-                .WithAlias("page")
-                .WithId(1056)
-                .Build();
-            contentTypeService.Save(homeType);
-            contentTypeService.Save(pageType);
-
-            //var publishedModelFactory = Mock.Of<IPublishedModelFactory>();
+        public void SetupContentCache()
+        {
             var publishedModelFactory = GetRequiredService<IPublishedModelFactory>();
             contentStore = new ContentStore(
                 publishedSnapshotAccessor,
@@ -89,7 +74,8 @@ namespace Umbraco.UnitTesting.Adapter
             using (contentStore.GetScopedWriteLock(GetRequiredService<IScopeProvider>()))
             {
                 //contentStore.UpdateDataTypesLocked(dataTypeService.GetAll()));
-                contentStore.UpdateContentTypesLocked(contentTypeService.GetAll().Select(x => publishedContentTypeFactory.CreateContentType(x)));
+                contentStore.UpdateContentTypesLocked(contentTypeService.GetAll()
+                    .Select(x => publishedContentTypeFactory.CreateContentType(x)));
                 contentStore.SetAllLocked(localDb.Values);
             }
 
@@ -106,8 +92,11 @@ namespace Umbraco.UnitTesting.Adapter
             );
 
             Mock.Get(publishedSnapshot).Setup(x => x.Content).Returns(cache);
+        }
 
-
+        // TODO: Customizable URL
+        private void SetupRequest()
+        {
             var httpContext = GetRequiredService<IHttpContextAccessor>().HttpContext;
             httpContext.Request.Scheme = "https";
             httpContext.Request.Host = new HostString("localhost", 443);
@@ -115,7 +104,6 @@ namespace Umbraco.UnitTesting.Adapter
             httpContext.Request.Path = new PathString("/");
             httpContext.Request.QueryString = QueryString.Empty;
             var url = httpContext.Request.GetEncodedUrl();
-            //contentCache = Services.GetRequiredService<IPublishedContentCache>();
         }
 
         public override void ConfigureServices(IServiceCollection services)
