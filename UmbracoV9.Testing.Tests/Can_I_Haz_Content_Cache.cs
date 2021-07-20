@@ -31,6 +31,18 @@ namespace UmbracoV9.Testing.Tests
             support.Setup();
         }
 
+        [Test]
+        public void Write_All_Published_Content()
+        {
+            var ctx = support.GetUmbracoContext();
+
+            Console.WriteLine(JsonConvert.SerializeObject(ctx.Content.GetAtRoot(), new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            }));
+        }
+
         [TearDown]
         public void TearDown()
         {
@@ -43,12 +55,6 @@ namespace UmbracoV9.Testing.Tests
         {
             var contentNodeKits = allContentKits;
             Console.WriteLine(JsonConvert.SerializeObject(contentNodeKits.Select(x => new { x.Key, x.Value.ContentTypeId, x.Value.PublishedData.Name }), Formatting.Indented));
-        }
-
-        [Test]
-        public void Use_Integrations()
-        {
-            support.CheckThings();;
         }
     }
 }

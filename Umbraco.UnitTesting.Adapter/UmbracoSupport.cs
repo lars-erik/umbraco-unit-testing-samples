@@ -146,21 +146,12 @@ namespace Umbraco.UnitTesting.Adapter
             services.AddSingleton<IPublishedSnapshotService>(snapshotService);
         }
 
-        public void CheckThings()
+        public IUmbracoContext GetUmbracoContext()
         {
-            var x = 1;
-
             var ctxFact = GetRequiredService<IUmbracoContextFactory>();
             var ctxRef = ctxFact.EnsureUmbracoContext();
             var ctx = ctxRef.UmbracoContext;
-
-            Console.WriteLine(JsonConvert.SerializeObject(ctx.Content.GetAtRoot(), new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            }));
-
-            return;
+            return ctx;
         }
 
 
